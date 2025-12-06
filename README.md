@@ -12,21 +12,16 @@ A **production-ready, fully automated CI/CD pipeline** built on AWS using Terraf
 
 ## Table of Contents
 
-- [Overview](#-overview)
-- [Architecture](#-architecture)
-- [Features](#-features)
-- [Prerequisites](#-prerequisites)
-- [Quick Start](#-quick-start)
-- [Project Structure](#-project-structure)
-- [Infrastructure Components](#-infrastructure-components)
-- [Application](#-application)
-- [CI/CD Pipeline](#-cicd-pipeline)
-- [Monitoring & Logging](#-monitoring--logging)
-- [Security](#-security)
-- [Troubleshooting](#-troubleshooting)
-- [Cost Optimization](#-cost-optimization)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Project Structure](#project-structure)
+- [CI/CD Pipeline](#cicd-pipeline)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -64,7 +59,7 @@ This project demonstrates a **complete AWS DevOps pipeline** that automatically 
 - ✅ **Infrastructure as Code** - 100% Terraform-managed
 - ✅ **Automated Backups** - S3 artifact storage with lifecycle policies
 
-### CI/CD Pipeline
+### CI/CD
 - ✅ **Automated Builds** - Triggered on every GitHub push
 - ✅ **Docker Multi-stage Builds** - Optimized image size
 - ✅ **Vulnerability Scanning** - ECR image scanning on push
@@ -330,6 +325,7 @@ Contributions are welcome! Please follow these steps:
 5. Open a Pull Request
 
 ---
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

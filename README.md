@@ -81,7 +81,7 @@ aws_region          = "us-east-1"
 project_name        = "aws-devops"
 github_repo         = "Amitabh-DevOps/aws-devops"
 github_branch       = "main"
-github_token        = "your-github-personal-access-token"
+github_token        = "your-github-personal-access-token" # with `repo` and `admin:repo_hook` permissions
 ```
 
 ### 4. Deploy Infrastructure

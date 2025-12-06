@@ -11,7 +11,7 @@ environment  = "prod"
 # GitHub Configuration
 github_repo   = "Amitabh-DevOps/aws-devops"
 github_branch = "main"
-# github_token = "your-github-personal-access-token-here"  # Add your token
+github_token = "your-github-personal-access-token-here"  # Add your token
 
 # Container Configuration
 container_port   = 3000

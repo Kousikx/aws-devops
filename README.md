@@ -1,60 +1,120 @@
-# AWS DevOps CI/CD Pipeline Project
+# AWS DevOps CI/CD Pipeline
 
-A complete AWS DevOps project demonstrating CI/CD pipeline implementation using AWS CodePipeline, CodeBuild, ECR, and ECS - all provisioned with Terraform.
+[![AWS](https://img.shields.io/badge/AWS-ECS%20%7C%20ECR%20%7C%20CodePipeline-orange?logo=amazon-aws)](https://aws.amazon.com/)
+[![Terraform](https://img.shields.io/badge/Terraform-1.0+-purple?logo=terraform)](https://www.terraform.io/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js)](https://nodejs.org/)
+[![Docker](https://img.shields.io/badge/Docker-Multi--stage-blue?logo=docker)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 🚀 Project Overview
+A **production-ready, fully automated CI/CD pipeline** built on AWS using Terraform, featuring containerized deployment with ECS Fargate, automated builds with CodePipeline, and a modern responsive web interface.
 
-This project showcases a production-ready CI/CD pipeline that:
-- **Source**: Pulls code from GitHub
-- **Build**: Builds Docker images using AWS CodeBuild
-- **Deploy**: Deploys containerized application to AWS ECS Fargate
+## Table of Contents
 
-## 📁 Project Structure
+- [Overview](#-overview)
+- [Architecture](#-architecture)
+- [Features](#-features)
+- [Prerequisites](#-prerequisites)
+- [Quick Start](#-quick-start)
+- [Project Structure](#-project-structure)
+- [Infrastructure Components](#-infrastructure-components)
+- [Application](#-application)
+- [CI/CD Pipeline](#-cicd-pipeline)
+- [Monitoring & Logging](#-monitoring--logging)
+- [Security](#-security)
+- [Troubleshooting](#-troubleshooting)
+- [Cost Optimization](#-cost-optimization)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+## 🎯 Overview
+
+This project demonstrates a **complete AWS DevOps pipeline** that automatically builds, tests, and deploys a Node.js application to ECS Fargate whenever code is pushed to GitHub. Everything is provisioned using Infrastructure as Code (Terraform) following AWS best practices.
+
+### Live Demo
+- **Application URL**: Provided after `terraform apply` completes
+- **CodePipeline Console**: `https://console.aws.amazon.com/codesuite/codepipeline/pipelines/aws-devops-pipeline/view`
+
+## 🏗️ Architecture
 
 ```
-AWS-DevOps/
-├── app/                    # Node.js Express Application
-│   ├── src/               # Application source code
-│   ├── public/            # Static assets (CSS, JS, images)
-│   ├── Dockerfile         # Container configuration
-│   ├── package.json       # Node.js dependencies
-│   └── buildspec.yml      # CodeBuild build specification
-├── terraform/             # Infrastructure as Code
-│   ├── main.tf           # Main Terraform configuration
-│   ├── variables.tf      # Input variables
-│   ├── outputs.tf        # Output values
-│   ├── vpc.tf            # VPC and networking
-│   ├── ecr.tf            # Elastic Container Registry
-│   ├── ecs.tf            # ECS Cluster and Service
-│   ├── codepipeline.tf   # CodePipeline configuration
-│   ├── codebuild.tf      # CodeBuild project
-│   └── iam.tf            # IAM roles and policies
-└── README.md             # This file
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌──────────────┐
+│   GitHub    │─────▶│ CodePipeline │─────▶│  CodeBuild  │─────▶│     ECR      │
+│ Repository  │      │   (Source)   │      │   (Build)   │      │  (Registry)  │
+└─────────────┘      └──────────────┘      └─────────────┘      └──────────────┘
+                                                                         │
+                                                                         ▼
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌──────────────┐
+│   Users     │◀─────│     ALB      │◀─────│ ECS Fargate │◀─────│  CodeDeploy  │
+│  (Browser)  │      │ (Load Bal.)  │      │  (Cluster)  │      │   (Deploy)   │
+└─────────────┘      └──────────────┘      └─────────────┘      └──────────────┘
+                            │
+                            ▼
+                     ┌──────────────┐
+                     │  CloudWatch  │
+                     │   (Logs)     │
+                     └──────────────┘
 ```
 
-## 🛠️ Technologies Used
+### Key Components:
+- **VPC**: Isolated network with public/private subnets across 2 AZs
+- **ECS Fargate**: Serverless container orchestration
+- **Application Load Balancer**: Traffic distribution with health checks
+- **ECR**: Private Docker image registry
+- **CodePipeline**: Automated CI/CD workflow
+- **CodeBuild**: Docker image building
+- **CloudWatch**: Centralized logging and monitoring
+
+## ✨ Features
 
 ### Infrastructure
-- **Terraform** - Infrastructure as Code
-- **AWS CodePipeline** - CI/CD orchestration
-- **AWS CodeBuild** - Build automation
-- **AWS ECR** - Container registry
-- **AWS ECS Fargate** - Container orchestration
-- **AWS VPC** - Networking
+- ✅ **Multi-AZ Deployment** - High availability across availability zones
+- ✅ **Auto-scaling** - Scales from 2-4 tasks based on CPU/Memory
+- ✅ **Zero-downtime Deployments** - Rolling updates with circuit breaker
+- ✅ **Infrastructure as Code** - 100% Terraform-managed
+- ✅ **Automated Backups** - S3 artifact storage with lifecycle policies
+
+### CI/CD Pipeline
+- ✅ **Automated Builds** - Triggered on every GitHub push
+- ✅ **Docker Multi-stage Builds** - Optimized image size
+- ✅ **Vulnerability Scanning** - ECR image scanning on push
+- ✅ **Deployment Circuit Breaker** - Automatic rollback on failures
+- ✅ **Build Caching** - Faster builds with npm cache
 
 ### Application
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **Docker** - Containerization
-- **HTML/CSS/JavaScript** - Frontend
+- ✅ **Modern UI** - Responsive design with dark theme
+- ✅ **Mobile-friendly** - Hamburger menu for mobile devices
+- ✅ **Health Checks** - Application and container-level monitoring
+- ✅ **Graceful Shutdown** - Proper signal handling
+- ✅ **Security Headers** - Helmet.js for HTTP security
 
-## 📋 Prerequisites
+### Security
+- ✅ **Least Privilege IAM** - Minimal required permissions
+- ✅ **Private Subnets** - Containers run in private network
+- ✅ **Security Groups** - Strict ingress/egress rules
+- ✅ **Non-root Containers** - Enhanced container security
+- ✅ **Secrets Management** - GitHub token via Terraform variables
 
-1. **AWS Account** with appropriate permissions
-2. **Terraform** (v1.0+) installed
-3. **AWS CLI** configured with credentials
-4. **GitHub Personal Access Token** (for CodePipeline source)
-5. **Node.js** (v18+) for local development
+## 📦 Prerequisites
+
+### Required Tools
+- **AWS CLI** (v2.x) - [Install Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- **Terraform** (v1.0+) - [Install Guide](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+- **Git** - [Install Guide](https://git-scm.com/downloads)
+- **Node.js** (v18+) - For local development (optional)
+- **Docker** - For local testing (optional)
+
+### AWS Account Requirements
+- Active AWS account with admin access
+- AWS credentials configured (`aws configure`)
+- GitHub Personal Access Token with `repo` and `admin:repo_hook` permissions
+
+### Estimated Costs
+- **ECS Fargate**: ~$30-50/month (2 tasks, 0.25 vCPU, 0.5 GB each)
+- **ALB**: ~$20/month
+- **NAT Gateway**: ~$35/month per AZ
+- **ECR**: ~$0.10/GB/month
+- **CodeBuild**: Free tier (100 build minutes/month)
+- **Total**: ~$85-105/month
 
 ## 🚀 Quick Start
 
@@ -69,193 +129,198 @@ cd aws-devops
 
 ```bash
 aws configure
-# Enter your AWS Access Key ID, Secret Access Key, and region (us-east-1)
+# Enter your AWS Access Key ID
+# Enter your AWS Secret Access Key
+# Default region: us-east-1
+# Default output format: json
 ```
 
-### 3. Set Up Terraform Variables
+### 3. Create GitHub Personal Access Token
 
-Create a `terraform.tfvars` file in the `terraform/` directory:
+1. Go to GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Generate new token with scopes: `repo` and `admin:repo_hook`
+3. Copy the token (you'll need it in the next step)
 
-```hcl
-aws_region          = "us-east-1"
-project_name        = "aws-devops"
-github_repo         = "Amitabh-DevOps/aws-devops"
-github_branch       = "main"
-github_token        = "your-github-personal-access-token" # with `repo` and `admin:repo_hook` permissions
-```
-
-### 4. Deploy Infrastructure
+### 4. Configure Terraform Variables
 
 ```bash
 cd terraform
+cp terraform.tfvars.example terraform.tfvars
+```
+
+Edit `terraform.tfvars`:
+
+```hcl
+aws_region      = "us-east-1"
+project_name    = "aws-devops"
+github_repo     = "YourUsername/aws-devops"  # Change this!
+github_branch   = "main"
+github_token    = "ghp_your_token_here"      # Paste your token!
+```
+
+### 5. Deploy Infrastructure
+
+```bash
+# Initialize Terraform
 terraform init
+
+# Validate the configuration
+terraform validate
+
+# Review the execution plan
 terraform plan
-terraform apply
+
+# Apply the configuration with auto-approve
+terraform apply --auto-approve
 ```
 
-### 5. Trigger the Pipeline
+**⏱️ Deployment takes ~5-10 minutes**
 
-Once Terraform completes, the pipeline will automatically trigger on the next push to the `main` branch:
+### 6. Access Your Application
 
-```bash
-git add .
-git commit -m "Trigger pipeline"
-git push origin main
+After deployment completes, Terraform will output:
+
+```
+Outputs:
+
+alb_url = "http://aws-devops-alb-xxxxx.us-east-1.elb.amazonaws.com/"
+codepipeline_url = "https://console.aws.amazon.com/codesuite/codepipeline/..."
+ecr_repository_url = "xxxxx.dkr.ecr.us-east-1.amazonaws.com/aws-devops-app"
 ```
 
-## 🏗️ Infrastructure Components
+Visit the `alb_url` to see your application! 🎉
 
-### VPC & Networking
-- VPC with public and private subnets across 2 AZs
-- Internet Gateway and NAT Gateways
-- Route tables and security groups
+## 📁 Project Structure
 
-### ECR (Elastic Container Registry)
-- Private Docker image repository
-- Lifecycle policies for image management
-
-### ECS (Elastic Container Service)
-- Fargate launch type (serverless containers)
-- Application Load Balancer
-- Auto-scaling configuration
-- CloudWatch logging
-
-### CodePipeline
-- **Source Stage**: GitHub integration
-- **Build Stage**: CodeBuild for Docker image creation
-- **Deploy Stage**: ECS deployment
-
-### CodeBuild
-- Docker image building
-- Automated testing
-- Push to ECR
-
-## 🌐 Application Features
-
-The deployed web application is a modern DevOps dashboard that showcases:
-- Real-time CI/CD pipeline visualization
-- AWS service integration status
-- Modern glassmorphism UI design
-- Responsive layout
-- Animated components
-
-## 📊 Pipeline Stages
-
-1. **Source**: Detects changes in GitHub repository
-2. **Build**: 
-   - Pulls source code
-   - Builds Docker image
-   - Runs tests
-   - Pushes image to ECR
-3. **Deploy**:
-   - Updates ECS task definition
-   - Deploys new container version
-   - Performs health checks
-
-## 🔒 Security Best Practices
-
-- IAM roles with least privilege access
-- Secrets stored in AWS Secrets Manager
-- Private subnets for ECS tasks
-- Security groups with minimal required access
-- ECR image scanning enabled
-
-## 📝 Useful Commands
-
-### Terraform
-```bash
-terraform init          # Initialize Terraform
-terraform plan          # Preview changes
-terraform apply         # Apply changes
-terraform destroy       # Destroy infrastructure
-terraform output        # View outputs
 ```
-
-### AWS CLI
-```bash
-# View pipeline status
-aws codepipeline get-pipeline-state --name <pipeline-name>
-
-# View ECS service
-aws ecs describe-services --cluster <cluster-name> --services <service-name>
-
-# View logs
-aws logs tail /ecs/<task-family> --follow
+aws-devops/
+├── app/                          # Node.js Application
+│   ├── src/
+│   │   └── server.js            # Express server
+│   ├── public/
+│   │   ├── index.html           # Frontend UI
+│   │   ├── css/style.css        # Responsive styles
+│   │   └── js/app.js            # Client-side JavaScript
+│   ├── Dockerfile               # Multi-stage Docker build
+│   ├── buildspec.yml            # CodeBuild configuration
+│   ├── package.json             # Node.js dependencies
+│   └── .dockerignore            # Docker build exclusions
+│
+├── terraform/                    # Infrastructure as Code
+│   ├── main.tf                  # Provider & data sources
+│   ├── variables.tf             # Input variables
+│   ├── outputs.tf               # Output values
+│   ├── vpc.tf                   # VPC, subnets, NAT, IGW
+│   ├── ecr.tf                   # Container registry
+│   ├── ecs.tf                   # ECS cluster, service, ALB
+│   ├── iam.tf                   # IAM roles & policies
+│   ├── codebuild.tf             # Build project
+│   ├── codepipeline.tf          # CI/CD pipeline
+│   ├── terraform.tfvars.example # Example variables
+│   └── .gitignore               # Terraform exclusions
+│
+├── README.md                     # This file
+├── LICENSE                       # MIT License
+└── .gitignore                    # Git exclusions
 ```
 
 ### Local Development
+
 ```bash
 cd app
-npm install            # Install dependencies
-npm start              # Run locally on port 3000
-npm test               # Run tests
-docker build -t app .  # Build Docker image
-docker run -p 3000:3000 app  # Run container
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Access at http://localhost:3000
 ```
 
-## 🎯 Accessing the Application
-
-After successful deployment, get the Application Load Balancer URL:
+### Docker Build (Local)
 
 ```bash
-cd terraform
-terraform output alb_url
+cd app
+
+# Build image
+docker build -t aws-devops-app .
+
+# Run container
+docker run -p 3000:3000 aws-devops-app
+
+# Access at http://localhost:3000
 ```
 
-Visit the URL in your browser to see the deployed application.
+## 🔄 CI/CD Pipeline
 
-## 🔄 Making Changes
+### Pipeline Stages
 
-1. Make code changes in the `app/` directory
-2. Commit and push to GitHub:
-   ```bash
-   git add .
-   git commit -m "Your changes"
-   git push origin main
-   ```
-3. Pipeline automatically triggers and deploys changes
+1. **Source** - Pulls code from GitHub on push
+2. **Build** - CodeBuild builds Docker image and pushes to ECR
+3. **Deploy** - Updates ECS service with new image
 
-## 📈 Monitoring
+### Build Process
 
-- **CloudWatch Logs**: Application and container logs
-- **CodePipeline Console**: Pipeline execution history
-- **ECS Console**: Service health and task status
-- **CloudWatch Metrics**: CPU, memory, and custom metrics
+```yaml
+# buildspec.yml
+phases:
+  pre_build:
+    - Login to ECR
+    - Set image tag from commit hash
+  build:
+    - Build Docker image
+    - Tag with commit hash and 'latest'
+  post_build:
+    - Push images to ECR
+    - Generate imagedefinitions.json
+```
 
-## 🧹 Cleanup
-
-To avoid AWS charges, destroy all resources:
+### Triggering Deployments
 
 ```bash
-cd terraform
-terraform destroy
+# Make code changes
+git add .
+git commit -m "Update feature"
+git push origin main
+
+# Pipeline automatically triggers!
 ```
 
-**Note**: Confirm the destruction when prompted.
+### 📊 Monitoring & Logging
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 👨‍💻 Author
-
-**Amitabh**
-- GitHub: [@Amitabh-DevOps](https://github.com/Amitabh-DevOps)
-
-## 🙏 Acknowledgments
-
-- AWS Documentation
-- Terraform Registry
-- DevOps Community
+#### CloudWatch Log Groups
+- Go to CloudWatch Console:
+   - `/ecs/aws-devops` - Application logs
+   - `/aws/codebuild/aws-devops` - Build logs
 
 ---
 
-**Happy DevOps! 🚀**
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- AWS for comprehensive cloud services
+- HashiCorp for Terraform
+- The open-source community
+
+---
+
+**Built with ❤️ for DevOps by [Amitabh](https://github.com/Amitabh-DevOps)**
+
+**⭐ Star this repo if you find it helpful!**

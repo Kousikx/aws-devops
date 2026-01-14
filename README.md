@@ -20,8 +20,7 @@ This project demonstrates a **complete AWS DevOps pipeline** that automatically 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Amitabh-DevOps/aws-devops.git
-cd aws-devops
+git clone https://github.com/Kousikx/aws-devops.git
 ```
 
 ### 2. Configure AWS Credentials

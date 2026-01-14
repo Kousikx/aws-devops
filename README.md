@@ -1,38 +1,12 @@
 
 A **production-ready, fully automated CI/CD pipeline** built on AWS using Terraform, featuring containerized deployment with ECS Fargate, automated builds with CodePipeline, and a modern responsive web interface.
 
-![application](screenshots/1.png)
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Quick Start](#quick-start)
-- [Project Structure](#project-structure)
-- [CI/CD Pipeline](#cicd-pipeline)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
-
----
 
 ## Overview
 
 This project demonstrates a **complete AWS DevOps pipeline** that automatically builds, tests, and deploys a Node.js application to ECS Fargate whenever code is pushed to GitHub. Everything is provisioned using Infrastructure as Code (Terraform) following AWS best practices.
 
 
----
-
-## Prerequisites
-
-### Required Tools
-- **AWS CLI** (v2.x) - [Install Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-- **Terraform** (v1.0+) - [Install Guide](https://learn.hashicorp.com/tutorials/terraform/install-cli)
-- **Git**
-- **Node.js** (v18+) - For local development (optional)
-- **Docker** - For local testing (optional)
 
 ### AWS Account Requirements
 - Active AWS account with admin access
@@ -99,107 +73,10 @@ terraform plan
 terraform apply --auto-approve
 ```
 
-**Deployment takes ~5-10 minutes**
-
-- ECR Repository
-
-  ![ecr](screenshots/7.png)
-
-- ECS Cluster
-
-  ![ecs](screenshots/8.png)
-
-- ALB
-
-  ![alb](screenshots/9.png)
-
-- S3 Bucket
-
-  ![s3](screenshots/10.png)
-
 ### 6. Access Your Application
+http://aws-devops-alb-373892596.us-east-1.elb.amazonaws.com/
 
-After deployment completes, Terraform will output:
+<img width="975" height="613" alt="image" src="https://github.com/user-attachments/assets/514c8390-a783-4d1c-9d23-214171e16d6a" />
 
+<img width="1000" height="689" alt="image" src="https://github.com/user-attachments/assets/d1727fbb-159e-4257-adbc-47bb85b7efe4" />
 
-
-### Local Development
-
-```bash
-cd app
-
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Access at http://localhost:3000
-```
-
-### Docker Build (Local)
-
-```bash
-cd app
-
-# Build image
-docker build -t aws-devops-app .
-
-# Run container
-docker run -p 3000:3000 aws-devops-app
-
-# Access at http://localhost:3000
-```
-
----
-
-## CI/CD Pipeline
-
-### Pipeline Stages
-
-1. **Source** - Pulls code from GitHub on push
-2. **Build** - CodeBuild builds Docker image and pushes to ECR
-3. **Deploy** - Updates ECS service with new image
-
-### Build Process
-
-```yaml
-# buildspec.yml
-phases:
-  pre_build:
-    - Login to ECR
-    - Set image tag from commit hash
-  build:
-    - Build Docker image
-    - Tag with commit hash and 'latest'
-  post_build:
-    - Push images to ECR
-    - Generate imagedefinitions.json
-```
-
-### Triggering Deployments
-
-```bash
-# Make code changes
-git add .
-git commit -m "Update feature"
-git push origin main
-
-# Pipeline automatically triggers!
-```
-
-- Pipeline Screenshot
-
-  ![pipeline](screenshots/6.png)
-
-### Monitoring & Logging
-
-#### CloudWatch Log Groups
-- Go to CloudWatch Console:
-   - `/ecs/aws-devops` - Application logs
-   - `/aws/codebuild/aws-devops` - Build logs
-
-
-
-
-**⭐ Star this repo if you find it helpful!**
